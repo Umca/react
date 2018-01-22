@@ -26,7 +26,7 @@ export const EPhoto = ({url, emojify, emotions = []}) => {
         };
     })
     return (
-        <div style={{ position: 'relative', transform: 'scale(0.7)'}}>
+        <div style={{ position: 'relative', transform: 'scale(0.7)'}} class="image__wrapper">
             {
                 faces.map( (props, i) => {
                     const { top, left, fontSize } = props

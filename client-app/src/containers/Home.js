@@ -57,13 +57,13 @@ export default class Home extends Component {
         <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }}>
           {data.map(photo => {
             return (
-              <div key={photo.id}>
+              //<div key={photo.id}>
                 <EPhoto
                   url={photo.url}
                   emojify={this.handleClick}
                   emotions={emotions[photo.url]}
                 />
-              </div>
+              //</div>
             );
           })}
         </div>
