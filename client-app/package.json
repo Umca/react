@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "client-app",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -24,10 +24,10 @@
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "precommit": "lint-staged",
-    "start": "npm run watch-css && react-scripts start",
-    "build": "npm run build-css react-scripts build",
+    "start": " react-scripts start",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
