@@ -58,11 +58,12 @@ export default class Home extends Component {
           {data.map(photo => {
             return (
               //<div key={photo.id}>
-                <EPhoto
-                  url={photo.url}
-                  emojify={this.handleClick}
-                  emotions={emotions[photo.url]}
-                />
+              <EPhoto
+                url={photo.url}
+                emojify={this.handleClick}
+                key={photo.id}
+                emotions={emotions[photo.url]}
+              />
               //</div>
             );
           })}
