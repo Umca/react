@@ -11,9 +11,12 @@ export default class Login extends Component {
         lastName: '',
         password: '',
         email: ''
+      },
+      loginData: {
+        password: '',
+        email: ''
       }
     };
-    this.login = this.login.bind(this);
     this.updateTab = this.updateTab.bind(this);
   }
 
@@ -21,15 +24,39 @@ export default class Login extends Component {
     API.login();
   }
 
-  handleInputChange(id, e) {
-    const signUpData = this.state.signUpData;
-    signUpData[id] = e.target.value;
+  handleInputChange(id, mode, e) {
+    let data = this.state[mode + 'Data'];
+    data[id] = e.target.value;
     this.setState({
-      signUpData
+      [mode + 'Data']: data
     });
   }
 
-  login() {}
+  login(e) {
+    console.log(JSON.stringify(this.state.loginData));
+    e.preventDefault();
+    fetch('http://localhost:3003/api/login', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(this.state.loginData)
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+
+        let loginData = {
+          password: '',
+          email: ''
+        };
+
+        this.setState({
+          loginData
+        });
+      });
+  }
 
   signUp(e) {
     console.log(JSON.stringify(this.state.signUpData));
@@ -43,7 +70,20 @@ export default class Login extends Component {
       body: JSON.stringify(this.state.signUpData)
     })
       .then(response => response.json())
-      .then(response => console.log(response));
+      .then(response => {
+        console.log(response);
+
+        let signUpData = {
+          firstName: '',
+          lastName: '',
+          password: '',
+          email: ''
+        };
+
+        this.setState({
+          signUpData
+        });
+      });
   }
 
   updateTab(tab) {
@@ -59,24 +99,36 @@ export default class Login extends Component {
 
         <form action="/" method="post">
           <div className="field-wrap">
-            <label>
-              Email Address<span className="req">*</span>
-            </label>
-            <input type="email" required autoComplete="off" />
+            <input
+              type="email"
+              placeholder="Email address"
+              required
+              autoComplete="off"
+              value={this.state.loginData.email}
+              onChange={this.handleInputChange.bind(this, 'email', 'login')}
+            />
           </div>
 
           <div className="field-wrap">
-            <label>
-              Password<span className="req">*</span>
-            </label>
-            <input type="password" required autoComplete="off" />
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              autoComplete="off"
+              value={this.state.loginData.password}
+              onChange={this.handleInputChange.bind(this, 'password', 'login')}
+            />
           </div>
 
           <p className="forgot">
             <a href="#">Forgot Password?</a>
           </p>
 
-          <button className="button button-block" onClick={() => this.login()}>
+          <button
+            className="button button-block"
+            type="submit"
+            onClick={this.login.bind(this)}
+          >
             Log In
           </button>
         </form>
@@ -97,7 +149,11 @@ export default class Login extends Component {
                 autoComplete="off"
                 placeholder="First Name"
                 value={this.state.signUpData.firstName}
-                onChange={this.handleInputChange.bind(this, 'firstName')}
+                onChange={this.handleInputChange.bind(
+                  this,
+                  'firstName',
+                  'signUp'
+                )}
               />
             </div>
 
@@ -108,7 +164,11 @@ export default class Login extends Component {
                 autoComplete="off"
                 placeholder="Last Name"
                 value={this.state.signUpData.lastName}
-                onChange={this.handleInputChange.bind(this, 'lastName')}
+                onChange={this.handleInputChange.bind(
+                  this,
+                  'lastName',
+                  'signUp'
+                )}
               />
             </div>
           </div>
@@ -120,7 +180,7 @@ export default class Login extends Component {
               autoComplete="off"
               placeholder="Email Address"
               value={this.state.signUpData.email}
-              onChange={this.handleInputChange.bind(this, 'email')}
+              onChange={this.handleInputChange.bind(this, 'email', 'signUp')}
             />
           </div>
 
@@ -131,7 +191,7 @@ export default class Login extends Component {
               autoComplete="off"
               placeholder="Set A Password"
               value={this.state.signUpData.password}
-              onChange={this.handleInputChange.bind(this, 'password')}
+              onChange={this.handleInputChange.bind(this, 'password', 'signUp')}
             />
           </div>
 

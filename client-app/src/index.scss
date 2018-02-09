@@ -173,11 +173,15 @@ textarea {
   color: $white;
   transition: all.5s ease;
   -webkit-appearance: none;
-  &:hover,
+  &:hover {
+    background: $main-dark;
+    cursor: pointer;
+  }  
   &:focus {
     background: $main-dark;
   }
 }
+
 
 .button-block {
   display: block;
