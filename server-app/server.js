@@ -11,6 +11,7 @@ mongoose.connect(`mongodb://${keys.db.username}:${keys.db.password}@${keys.db.ur
     }
     })
 
+mongoose.set('debug', true)
 
 const server = express()
 
