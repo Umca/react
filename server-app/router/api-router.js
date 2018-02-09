@@ -1,4 +1,4 @@
-import { Error } from 'mongoose';
+//import { Error } from 'mongoose';
 
 const router = require('express').Router()
 const bodyParser = require('body-parser')
@@ -13,7 +13,7 @@ router.post('/signup', jsonParser, (req, res) => {
         } else {
             new User(req.body)
                 .save()
-                .then(respose => {
+                .then(response => {
                     res.send({ message: 'New user added' })
                 })
 
@@ -21,18 +21,18 @@ router.post('/signup', jsonParser, (req, res) => {
     })
 })
 
-router.post('/login', jsoParser, (req, res) => {
+router.post('/login', jsonParser, (req, res) => {
     User.findOne({ email: req.body.email }).then(response => {
         if (response) {
-            User.getAuthenticated(req.body.username, req.body.password, (err, user) => {
+            User.getAuthenticated(req.body.email, req.body.password, (err, user) => {
+                console.log(err, user)
                 if (err) throw Error(err)
-
                 if (user) {
-                    res.send('new user added')
+                    res.send({message: 'we have such user'})
                 }
             })
         } else {
-            res.send('there is no user with such email')
+            res.send({message: 'there is no user with such email'})
         }
     })
 })

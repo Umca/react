@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
-const bcrypt = requier('bcrypt')
+const bcrypt = require('bcrypt')
 const SALT_FACTOR = 10
 
 const UserSchema = new Schema({
-    fisrtName: {
+    firstName: {
         type: String,
         required: true
     },
@@ -24,7 +24,7 @@ const UserSchema = new Schema({
 
 })
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function (next) {
     
     const user = this
 
@@ -37,12 +37,16 @@ UserSchema.pre('save', (next) => {
             if (err) return next(err)
 
             user.password = hash
+            console.log(hash)
             next()
         })
+
     })
+
 })
 
-UserSchema.comparePassword = (newPas, cb) => {
+UserSchema.methods.comparePassword = function (newPas, cb) {
+    
     bcrypt.compare(newPas, this.password, (err, isMatch) => {
         if (err) return cb(err)
         
@@ -50,8 +54,9 @@ UserSchema.comparePassword = (newPas, cb) => {
     })
 }
 
-UserSchema.statics.getAuthenticated = (username, pass, cb) => {
-    this.findOne({ username }, (err, user) => {
+UserSchema.statics.getAuthenticated = function (email, pass, cb) {
+
+    this.findOne({ email }, (err, user) => {
         if (err) return cb(err)
         
         if (!user) return cb(null, null, 0)
